@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Structure standard HTML5, intégration du moteur de template Thymeleaf pour le rendu dynamique côté serveur -->
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -22,6 +23,7 @@
     </style>
 </head>
 <body>
+<!-- Barre de navigation transverse de l'application Hotel Royal -->
 <nav>
     <span class="brand">🏨 Hotel Royal</span>
     <a th:href="@{/chambres}">Chambres</a>
@@ -30,17 +32,23 @@
     <a th:href="@{/stats}">Statistiques</a>
 </nav>
 <div class="container">
+    <!-- Le titre bascule dynamiquement : si l'ID est nul, c'est une création, sinon c'est une mise à jour d'un client existant -->
     <h1 th:text="${client.id == null ? 'Nouveau client' : 'Modifier le client'}"></h1>
     <div class="card">
+        <!-- Formulaire sécurisé liant l'objet 'client' venant du contrôleur à l'action /clients/sauvegarder -->
         <form th:action="@{/clients/sauvegarder}" th:object="${client}" method="post">
+            <!-- Champ caché (non visible par l'utilisateur) crucial pour conserver la référence lors d'une édition -->
             <input type="hidden" th:field="*{id}">
 
             <label>Nom complet</label>
+            <!-- Liaison bidirectionnelle avec la propriété 'nom' du modèle -->
             <input type="text" th:field="*{nom}" placeholder="Ex: Jean Dupont" required>
 
             <label>Passeport / CNI</label>
+            <!-- Liaison bidirectionnelle avec la propriété 'passeport', utilisé légalement -->
             <input type="text" th:field="*{passeport}" placeholder="Ex: FR1234567" required>
 
+            <!-- Boutons de validation ou d'annulation redirigeant vers la liste -->
             <button type="submit" class="btn btn-success">Enregistrer</button>
             <a th:href="@{/clients}" class="btn btn-secondary">Annuler</a>
         </form>

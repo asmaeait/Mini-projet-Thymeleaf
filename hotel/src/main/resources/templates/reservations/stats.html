@@ -40,8 +40,10 @@
     <a th:href="@{/stats}">Statistiques</a>
 </nav>
 <div class="container">
+    <!-- En-tête du tableau de bord d'analyse de l'Hôtel Royal -->
     <h1>Tableau de bord — Hotel Royal</h1>
 
+    <!-- Première section : Les KPIs principaux (Taux occupation, RevPAR, etc) remontés depuis le StatController -->
     <div class="stat-grid">
         <div class="stat-card">
             <div class="number" th:text="${totalChambres}"></div>
@@ -54,6 +56,7 @@
         <div class="stat-card">
             <div class="number orange" th:text="${tauxOccupation + ' %'}"></div>
             <div class="label">Taux d'occupation</div>
+            <!-- Représentation visuelle du remplissage de l'hôtel -->
             <div class="progress-bar">
                 <div class="progress-fill" th:style="'width: ' + ${tauxOccupation} + '%'"></div>
             </div>
@@ -68,6 +71,7 @@
         </div>
     </div>
 
+    <!-- Deuxième section : Tableau analytique de décomposition du RevPAR selon la gamme de la chambre -->
     <h2>RevPAR par type de chambre</h2>
     <p style="font-size:13px; color:#888; margin-bottom:14px;">
         RevPAR = Revenu total du type divise par le nombre de chambres de ce type
@@ -80,8 +84,10 @@
         </tr>
         </thead>
         <tbody>
+        <!-- Boucle Thymeleaf qui itère sur la Map 'revpar' construite en Java -->
         <tr th:each="entry : ${revpar}">
             <td th:text="${entry.key}"></td>
+            <!-- Formatage à 2 décimales pour l'affichage de monnaie -->
             <td th:text="${#numbers.formatDecimal(entry.value, 1, 2) + ' euros'}"></td>
         </tr>
         <tr th:if="${#maps.isEmpty(revpar)}">
