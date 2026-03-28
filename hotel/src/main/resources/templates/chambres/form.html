@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chambre - Hotel Royal</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background: #f0f4f8; }
+        nav { background: #1a5276; padding: 14px 24px; display: flex; gap: 20px; align-items: center; }
+        nav a { color: white; text-decoration: none; font-size: 15px; padding: 6px 12px; border-radius: 4px; }
+        nav a:hover { background: #21618c; }
+        nav .brand { font-size: 18px; font-weight: bold; color: #d6eaf8; margin-right: 20px; }
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        h1 { font-size: 24px; margin-bottom: 20px; color: #1a5276; }
+        .card { background: white; padding: 30px; border-radius: 8px; max-width: 500px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 14px; }
+        input, select { width: 100%; padding: 9px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 18px; font-size: 14px; }
+        .btn { display: inline-block; padding: 9px 18px; border-radius: 4px; text-decoration: none; font-size: 14px; cursor: pointer; border: none; }
+        .btn-success   { background: #1a5276; color: white; }
+        .btn-secondary { background: #95a5a6; color: white; margin-left: 10px; }
+        .btn:hover { opacity: 0.85; }
+        .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+        .checkbox-row input { width: auto; margin: 0; }
+    </style>
+</head>
+<body>
+<nav>
+    <span class="brand">🏨 Hotel Royal</span>
+    <a th:href="@{/chambres}">Chambres</a>
+    <a th:href="@{/clients}">Clients</a>
+    <a th:href="@{/reservations}">Reservations</a>
+    <a th:href="@{/stats}">Statistiques</a>
+</nav>
+<div class="container">
+    <h1 th:text="${chambre.id == null ? 'Nouvelle chambre' : 'Modifier la chambre'}"></h1>
+    <div class="card">
+        <form th:action="@{/chambres/sauvegarder}" th:object="${chambre}" method="post">
+            <input type="hidden" th:field="*{id}">
+
+            <label>Numero de chambre</label>
+            <input type="text" th:field="*{numero}" placeholder="Ex: 101" required>
+
+            <label>Etage</label>
+            <input type="number" th:field="*{etage}" placeholder="Ex: 1" required>
+
+            <label>Type</label>
+            <select th:field="*{type}" required>
+                <option value="">-- Choisir un type --</option>
+                <option value="SINGLE">Single</option>
+                <option value="DOUBLE">Double</option>
+                <option value="SUITE">Suite</option>
+            </select>
+
+            <label>Prix par nuit (euros)</label>
+            <input type="number" step="0.01" th:field="*{prixNuit}" placeholder="Ex: 80.00" required>
+
+            <div class="checkbox-row">
+                <input type="checkbox" th:field="*{disponible}" id="dispo">
+                <label for="dispo" style="margin-bottom:0;">Disponible</label>
+            </div>
+
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <a th:href="@{/chambres}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

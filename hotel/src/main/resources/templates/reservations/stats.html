@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistiques - Hotel Royal</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background: #f0f4f8; }
+        nav { background: #1a5276; padding: 14px 24px; display: flex; gap: 20px; align-items: center; }
+        nav a { color: white; text-decoration: none; font-size: 15px; padding: 6px 12px; border-radius: 4px; }
+        nav a:hover { background: #21618c; }
+        nav .brand { font-size: 18px; font-weight: bold; color: #d6eaf8; margin-right: 20px; }
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        h1 { font-size: 24px; margin-bottom: 24px; color: #1a5276; }
+        h2 { font-size: 18px; margin: 30px 0 16px; color: #1a5276; border-left: 4px solid #1a5276; padding-left: 12px; }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 10px; }
+        .stat-card { background: white; padding: 24px 20px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); text-align: center; }
+        .number { font-size: 40px; font-weight: bold; color: #1a5276; }
+        .number.blue   { color: #2980b9; }
+        .number.green  { color: #27ae60; }
+        .number.orange { color: #e67e22; }
+        .label { font-size: 13px; color: #888; margin-top: 6px; }
+        .progress-bar  { background: #ecf0f1; border-radius: 8px; height: 20px; overflow: hidden; margin-top: 10px; }
+        .progress-fill { background: #1a5276; height: 100%; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        th { background: #1a5276; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
+        tr:last-child td { border-bottom: none; }
+        .btn { display: inline-block; padding: 8px 16px; border-radius: 4px; text-decoration: none; font-size: 13px; margin-right: 10px; }
+        .btn-primary { background: #1a5276; color: white; }
+        .btn:hover { opacity: 0.85; }
+    </style>
+</head>
+<body>
+<nav>
+    <span class="brand">🏨 Hotel Royal</span>
+    <a th:href="@{/chambres}">Chambres</a>
+    <a th:href="@{/clients}">Clients</a>
+    <a th:href="@{/reservations}">Reservations</a>
+    <a th:href="@{/stats}">Statistiques</a>
+</nav>
+<div class="container">
+    <h1>Tableau de bord — Hotel Royal</h1>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="number" th:text="${totalChambres}"></div>
+            <div class="label">Chambres au total</div>
+        </div>
+        <div class="stat-card">
+            <div class="number blue" th:text="${chambresOccupees}"></div>
+            <div class="label">Chambres occupees</div>
+        </div>
+        <div class="stat-card">
+            <div class="number orange" th:text="${tauxOccupation + ' %'}"></div>
+            <div class="label">Taux d'occupation</div>
+            <div class="progress-bar">
+                <div class="progress-fill" th:style="'width: ' + ${tauxOccupation} + '%'"></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="number green" th:text="${revenuTotal + ' euros'}"></div>
+            <div class="label">Revenu total confirme</div>
+        </div>
+        <div class="stat-card">
+            <div class="number" th:text="${totalReservations}"></div>
+            <div class="label">Total reservations</div>
+        </div>
+    </div>
+
+    <h2>RevPAR par type de chambre</h2>
+    <p style="font-size:13px; color:#888; margin-bottom:14px;">
+        RevPAR = Revenu total du type divise par le nombre de chambres de ce type
+    </p>
+    <table>
+        <thead>
+        <tr>
+            <th>Type de chambre</th>
+            <th>RevPAR (euros)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="entry : ${revpar}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${#numbers.formatDecimal(entry.value, 1, 2) + ' euros'}"></td>
+        </tr>
+        <tr th:if="${#maps.isEmpty(revpar)}">
+            <td colspan="2" style="text-align:center; color:#888; padding:16px;">
+                Aucune reservation confirmee pour calculer le RevPAR.
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top:24px;">
+        <a th:href="@{/reservations}" class="btn btn-primary">Voir les reservations</a>
+        <a th:href="@{/chambres}"     class="btn btn-primary">Voir les chambres</a>
+    </div>
+</div>
+</body>
+</html>

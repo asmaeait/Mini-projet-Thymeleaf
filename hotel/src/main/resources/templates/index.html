@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel Royal</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background: #f0f4f8; }
+        nav { background: #1a5276; padding: 14px 24px; display: flex; gap: 20px; align-items: center; }
+        nav a { color: white; text-decoration: none; font-size: 15px; padding: 6px 12px; border-radius: 4px; }
+        nav a:hover { background: #21618c; }
+        nav .brand { font-size: 18px; font-weight: bold; color: #d6eaf8; margin-right: 20px; }
+        .container { max-width: 1100px; margin: 60px auto; padding: 0 20px; text-align: center; }
+        h1 { font-size: 32px; color: #1a5276; margin-bottom: 12px; }
+        p { font-size: 16px; color: #666; margin-bottom: 40px; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 10px; padding: 30px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); text-decoration: none; color: #1a5276; transition: transform 0.15s; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .card .icon { font-size: 36px; margin-bottom: 12px; }
+        .card .title { font-size: 17px; font-weight: bold; }
+        .card .desc { font-size: 13px; color: #888; margin-top: 6px; }
+    </style>
+</head>
+<body>
+<nav>
+    <span class="brand">🏨 Hotel Royal</span>
+    <a th:href="@{/chambres}">Chambres</a>
+    <a th:href="@{/clients}">Clients</a>
+    <a th:href="@{/reservations}">Reservations</a>
+    <a th:href="@{/stats}">Statistiques</a>
+</nav>
+<div class="container">
+    <h1>Bienvenue a Hotel Royal</h1>
+    <p>Systeme de gestion des chambres, clients et reservations</p>
+    <div class="cards">
+        <a th:href="@{/chambres}" class="card">
+            <div class="icon">🛏️</div>
+            <div class="title">Chambres</div>
+            <div class="desc">Gerer les chambres et disponibilites</div>
+        </a>
+        <a th:href="@{/clients}" class="card">
+            <div class="icon">👤</div>
+            <div class="title">Clients</div>
+            <div class="desc">Enregistrer les clients</div>
+        </a>
+        <a th:href="@{/reservations}" class="card">
+            <div class="icon">📋</div>
+            <div class="title">Reservations</div>
+            <div class="desc">Creer et suivre les sejours</div>
+        </a>
+        <a th:href="@{/stats}" class="card">
+            <div class="icon">📊</div>
+            <div class="title">Statistiques</div>
+            <div class="desc">Taux occupation et revenus</div>
+        </a>
+    </div>
+</div>
+</body>
+</html>
